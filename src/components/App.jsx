@@ -55,6 +55,22 @@ export class App extends Component {
     return filteredContacts;
   };
 
+  localStorageKey = 'contacts';
+
+  componentDidMount() {
+    const savedContacts = localStorage.getItem(this.localStorageKey);
+    if (savedContacts) {
+      this.setState({ contacts: JSON.parse(savedContacts) });
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem(this.localStorageKey, JSON.stringify(contacts));
+    }
+  }
+
   render() {
     const filteredContacts = this.filtered();
     return (
